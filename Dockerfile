@@ -1,4 +1,4 @@
-# ----    gstreamer builder    ----
+# ---- gst-plugins-bad builder ----
 FROM alpine:3.17 as gst-plugins-bad
 
 RUN apk add \
@@ -6,7 +6,7 @@ RUN apk add \
     curl gcc g++ \
     # needed to build mjpegtools
     make libjpeg-turbo-dev libpng-dev libdv-dev \
-    # needed to build gstreamer
+    # needed to build gst-plugins-bad
     meson gstreamer-dev gst-plugins-base-dev
 
 # Build mjpegtools, which isn't in the repos
@@ -16,7 +16,7 @@ RUN ./configure --prefix=/usr \
     && make DESTDIR=/install install \
     && make install
 
-# and now gstreamer itself
+# and now gst-plugins-bad itself
 WORKDIR /
 RUN curl -L https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.20.4.tar.xz | tar -xJ
 RUN mkdir /gst-plugins-bad-1.20.4/build
@@ -55,7 +55,7 @@ RUN add-pkg \
     gst-plugins-good \
     # avenc_mp2, avenc_ac3 (for transcode2vob, alongside mplex & mpeg2enc from self-compiled gst-plugins-bad)
     gst-libav \
-    # cdrecord, genisoimage, mkisofs, readcd (patched with wrappers further down)
+    # cdrecord, genisoimage, mkisofs, readcd (patched with wrapper scripts, see /usr/local/bin)
     cdrkit \
     # toc2cue, cdrdao (for cdrdao)
     cdrdao \
@@ -65,7 +65,7 @@ RUN add-pkg \
     dvdauthor \
     # libdvdcss.so (for dvdcss)
     libdvdcss \
-    # vcdimager (patched with wrapper further down)
+    # vcdimager (patched with wrapper scripts, see /usr/local/bin)
     vcdimager@testing
 
 # Customize the final container
