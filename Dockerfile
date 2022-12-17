@@ -1,18 +1,3 @@
-# ----    cdrtools builder     ----
-FROM alpine:3.17 as cdrtools
-
-RUN apk add \
-    # general build tools
-    curl make gcc g++ \
-    # direct dependencies
-    linux-headers e2fsprogs-dev
-
-RUN curl -L https://downloads.sourceforge.net/cdrtools/cdrtools-3.02a09.tar.bz2 | tar -xj
-WORKDIR /cdrtools-3.02
-
-RUN GMAKE_NOWARN=true make INSR_BASE=/usr INSR_RBASE=/ DESTDIR=/install install
-
-
 # ----    gstreamer builder    ----
 FROM alpine:3.17 as gst-plugins-bad
 
