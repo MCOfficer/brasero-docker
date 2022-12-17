@@ -1,0 +1,9 @@
+#!/bin/ash
+# Once again, work around brasero's restrictive version check
+# https://gitlab.gnome.org/GNOME/brasero/-/blob/master/plugins/cdrtools/burn-mkisofs.c#L593
+
+if [ $1 == "--version" ]; then
+    echo "mkisofs 2.0.1"
+else
+    /usr/bin/mkisofs "$@"
+fi

@@ -1,0 +1,8 @@
+#!/bin/ash
+# see https://gitlab.gnome.org/GNOME/brasero/-/issues/343
+
+if [ $1 == "--version" ]; then
+    echo "vcdimager (GNU VCDImager) 10.10.10"
+else
+    /usr/bin/vcdimager "$@"
+fi
