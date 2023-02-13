@@ -30,22 +30,18 @@ RUN meson ..  \
     && DESTDIR=/install meson install
 
 # ----       main image        ----
-FROM jlesage/baseimage-gui:alpine-3.17-v4
+FROM jlesage/baseimage-gui:alpine-3.15-v4
 
 # vcdimager is not in the 3.17 repos yet
 RUN echo "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && apk update
 
 RUN add-pkg \
-    # maybe these help? idk anymore
-    gtk+3.0 libgudev dbus-glib libnotify jansson numactl pciutils libdvdcss librsvg lsscsi coreutils \
     # Brasero itself
     brasero dbus-x11 gvfs udisks2 \
     # Fonts
     font-noto \
     # install_app_icon.sh will need these later
     curl jq sed \
-    # cdrtools dependencies
-    acl libcap \
     # mjpegtools dependencies
     libjpeg libpng libdv \
     # 
